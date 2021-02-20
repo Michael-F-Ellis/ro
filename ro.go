@@ -4,8 +4,8 @@ package ro
 
 // ReturnOn panics if e is not nil on the expectation that a deferred recovery
 // function will catch and handle it.
-func ReturnOn(e error) {
-	if e != nil {
+func ReturnOn(err error) {
+	if err != nil {
 		panic(nil)
 	}
 }

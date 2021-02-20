@@ -20,22 +20,31 @@ func myfunc() (err error) {
 
 ## How it works
 - `ReturnOn` panics if `err` is not `nil`.
-- `RecoverOn` recovers from the panics raised by `ReturnOn`
+- `RecoverOn` recovers from the panic raised by `ReturnOn` and the function exits with whatever error value would have been returned normally. `RecoverOn` does not interfere with panics arising outside of `ReturnOn`.
 
 ## Benefits
-Reduces boilerplate lines by 2/3 for common case where your function simply returns errors without
+1. Reduces boilerplate lines by 2/3 for common case where your function simply returns errors without
 internal handling, i.e.
 ```
     err = SomeFunctionCall()
     if err != nil {
         return
     }
+
+    err = OtherFunctionCall()
+    if err != nil {
+        return
+    }
 ```
-becomes 
+        becomes 
 ```
     err = SomeFunctionCall()
     ro.ReturnOn(err)
+
+    err = SomeFunctionCall()
+    ro.ReturnOn(err)
 ```
+2.  Does not interfere with normal error checking.  You can still use `if err != nil {...}` wherever needed -- even within a function that also uses ReturnOn.
 ## Tradeoffs
 There's no free lunch.
 

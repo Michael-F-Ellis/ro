@@ -6,7 +6,7 @@ package ro
 // function will catch and handle it.
 func ReturnOn(err error) {
 	if err != nil {
-		panic(nil)
+		panic(err)
 	}
 }
 
